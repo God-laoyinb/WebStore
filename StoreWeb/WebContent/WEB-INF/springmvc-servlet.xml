@@ -1,0 +1,44 @@
+<beans
+    xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+	<!-- 配置映射处理器：根据bean(自定义Controller)的name属性的url去寻找handler；springmvc默认的映射处理器是
+	BeanNameUrlHandlerMapping
+	 -->
+	
+	<!-- <mvc:annotation-driven/>代替注解映射器RequestMappingHandlerMapping和注解适配器RequestMappingHandlerAdapter
+	<mvc:annotation-driven/>默认加载很多参数绑定方法,
+	比如json解析器,如果使用<mvc:annotation-driven/>就比不用配置注解映射器RequestMappingHandlerMapping和注解适配器RequestMappingHandlerAdapter
+	实际开发使用这个 -->
+    <mvc:annotation-driven/>
+    <!-- 对注解的handler可以单个配置,
+    	组件扫描,可以扫描controller,servicre等等 -->
+    <context:component-scan base-package="com.yrg.controller"/>
+	<bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"></bean>
+	<!-- 配置处理器适配器来执行Controlelr ,springmvc默认的是
+	SimpleControllerHandlerAdapter
+	-->
+	<mvc:default-servlet-handler/>
+	<bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"></bean>
+	
+	<!-- 配置自定义Controller -->
+	<!-- <bean id="getProduct" name="/GetProduct" class="com.cxf.controller.GetProduct"></bean> -->
+
+	
+	<!-- 配置sprigmvc视图解析器：解析逻辑试图； 
+		后台返回逻辑试图：index
+		视图解析器解析出真正物理视图：前缀+逻辑试图+后缀====/WEB-INF/jsps/index.jsp
+	-->
+	
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"> <!-- 声明拦截器   -->
+		<property name="prefix" value="/page/"></property>
+		<property name="suffix" value=".jsp"></property>		
+	</bean>
+</beans>
